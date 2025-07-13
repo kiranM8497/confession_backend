@@ -87,12 +87,15 @@ const signIn = async (req, res) => {
       expiresIn: "1h",
     });
 
-    // 4. Return user info and token
-    return res.status(200).json({
-      message: "Login successful",
-      user: { id: user.id, email: user.email, name: user.name },
-      token,
+    // Set cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // true in production (HTTPS)
+      sameSite: "Lax",
+      maxAge: 3600000,
     });
+
+    return res.json({ message: "Login successful" });
   } catch (err) {
     console.error("Signin error:", err);
     return res
