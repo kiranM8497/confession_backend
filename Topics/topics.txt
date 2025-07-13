@@ -1,0 +1,78 @@
+## Event loop & concurrency
+
+“Explain the JavaScript event loop. Is JS single‑threaded or multi‑threaded?” 
+Understand differences between process.nextTick, setImmediate, setTimeout, and micro‑ vs. macro‑tasks. 
+Know how Node handles async operations under the hood (libuv, threads, callback queue)
+
+## Streams & buffers
+
+“What are streams and buffers? How do you handle backpressure?”
+
+## Modules & internals
+
+Differences between CommonJS and ES Modules 
+
+Role of cluster module, worker threads, and child processes
+
+
+2. Performance, Scaling & Memory
+## Load handling & optimization
+
+Strategies to prevent blocking the event loop and optimize high‑throughput APIs 
+reddit.com
+
+
+Trade-offs: clustering vs. worker threads vs. child processes.
+
+## Memory & leak detection
+
+“How would you detect memory leaks in a long‑running node.js service?” 
+
+
+Garbage collection in V8 and its performance impact
+
+3.Security & Architecture
+## Security pitfalls
+
+Prototype pollution prevention, secure handling of eval(), JWT authentication best practices 
+
+
+Handling CSRF in APIs and sensitive data management.
+
+## RBAC & rate limiting
+
+Implementation of role-based access control 
+
+Rate limiter middleware for Express apps.
+
+ 4. Express & API Design
+Build secure, scalable Express APIs: routing, middleware, authentication, validation, performance, scaling .
+
+Understand HTTP fundamentals: methods, headers, status codes, cookies, REST conventions .
+
+📐 5. JavaScript & System Design Basics
+JS essentials: closures, hoisting, scoped functions, prototype chain, async/await vs. callbacks/promises .
+
+Networking fundamentals: DNS, CDN, TCP/UDP vs. HTTP, caching strategies 
+
+
+System‑design scenarios: designing simple systems, e.g., rate‑limiters, LRU cache, API orchestration via Express 
+
+ 6. Coding / Hands‑On Tasks
+Candidates often get practical asks such as:
+
+Custom implementations: promise class, util.promisify 
+
+
+Concurrency control: limit number of async tasks, async queues with concurrency 
+
+
+Rate limiter middleware & LRU cache 
+
+Building basic Express API: fetching data, processing, responding .
+
+🧩 7. Interview Tips from Redditors
+“Get your JS fundamentals down, what are closures, object prototype, event loop, etc.” 
+
+
+“As far as 3rd party services… reinventing the wheel is a red flag.” 

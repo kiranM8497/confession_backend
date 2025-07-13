@@ -1,0 +1,40 @@
+ What is a Rate Limiter?
+A rate limiter controls how many times someone (typically based on their IP address) can access your API within a certain time window. It helps protect your server from:
+
+Abuse (like someone sending 1000 requests in 5 seconds)
+
+DDoS attacks
+
+Unintended overload from faulty clients or bots 
+
+----------
+
+You're importing the middleware from the express-rate-limit package.
+const rateLimit = require('express-rate-limit');
+
+
+This configuration means:
+
+windowMs: Each user/IP is tracked over a window of 15 minutes (15 × 60 × 1000 ms).
+
+max: If an IP makes more than 100 requests in that time, it’s blocked for the rest of the 15-minute window.
+
+message: When blocked, the server returns a custom error JSON:
+{ "error": "Too many requests, please try again later." }
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: { error: 'Too many requests, please try again later.' }
+});
+
+
+This line activates the rate limiter globally 
+– it applies to every route in your Express app.
+app.use(limiter);
+
+You could also apply it to specific routes like this:
+app.use('/items', limiter); // only applies to /items endpoints
+Each unique IP address gets 100 requests per 15 minutes.
+After that, any request will be blocked with an error message until the time resets.
+
+This ensures fair use of your API and protects your server from overload. 

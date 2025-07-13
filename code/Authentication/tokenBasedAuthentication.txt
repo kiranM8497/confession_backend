@@ -1,0 +1,11 @@
+the backend creates JWT with secret key,and sends jwt  to the client,
+the client stores JWT(usually in the localstoratge)
+ and includes JWT in the header with every request. the server validates the JWT
+ with every request from client and sedns response.
+so backend creates a token using using a encryption algorithm and shares thay token
+with the client.
+when the user makes makes request with the token creaeted by server, the server will 
+decrypt the token and see if it comes from a valid user.
+sensitive information should not be sored in the JWT.
+the advantage of the token based authentication is that no extra database is used to store login data 
+data like sessions

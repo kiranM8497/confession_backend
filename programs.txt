@@ -1,0 +1,48 @@
+Reverse a string 
+
+    Check for palindrome
+
+First non-repeating character
+
+Count character frequency
+
+Anagram check
+
+Unique-character check
+
+Most frequent character
+
+Reverse words in a sentence
+
+String compression (“aabcccccaaa” → “a2b1c5a3”)
+
+Balanced parentheses
+
+Capitalize the first letter of each word (“hello world” → “Hello World”)
+
+Check if two strings are rotations (“abcde” & “cdeab” → true)
+
+🗃️ Arrays (12)
+Two-sum problem
+
+Remove duplicates
+
+Flatten nested arrays
+
+Maximum subarray sum (Kadane’s)
+
+Rotate array by k
+
+Merge two sorted arrays
+
+Kth largest/smallest element
+
+Remove falsy values
+
+Move zeros to the end
+
+Intersection/union of arrays
+
+Find duplicate elements (efficiently)
+
+Sortedness check (is the array already sorted?)

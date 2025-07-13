@@ -1,0 +1,15 @@
+user ===== <request> ==== server
+request with username and password
+
+server the verifies  credentials with DB ==> then creates a session for that user 
+and store the sesion in the DB  and server sends a backa cookie to the client
+cookie==> string of key value pairs.mianly the session id which was stored in the
+ DB that will be sent to the user
+
+ next time user makes the requests, cookie is sent along with request headers.
+ server verifies  that cookie. checks if the session id matches with session stored 
+ in th DB.then server sends 200OK response
+ The drawback is that if we have millions of users , then backedn has to maintain 
+ millions of sessions for all those users.
+
+
