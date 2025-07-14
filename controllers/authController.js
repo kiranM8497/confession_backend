@@ -75,6 +75,14 @@ const signIn = async (req, res) => {
       return res.status(400).json({ message: "User not found" });
     }
 
+    // 👇 If the user signed up using OAuth and has no password
+    if (!user.password) {
+      return res.status(400).json({
+        message:
+          "This email is linked to Facebook login. Please use the Facebook button to sign in.",
+      });
+    }
+
     // 2. Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
 

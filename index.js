@@ -5,8 +5,27 @@ const rateLimit = require("express-rate-limit");
 const authRoutes = require("./routes/auth");
 const itemsRouter = require("./routes/items");
 const jwt = require("jsonwebtoken");
+const oauthRoutes = require("./routes/oauth");
+const session = require("express-session");
+const passport = require("passport");
+
+//Registers your Facebook strategy
+require("./config/passport-config");
 const app = express();
 app.use(cookieParser());
+
+// Required for Passport session management
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "supersecret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Initialize Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(
   cors({
     origin: "http://localhost:5173", // your frontend origin
@@ -35,7 +54,7 @@ const logger = (req, res, next) => {
 app.use(logger);
 app.use(normalLimiter);
 app.use(express.json()); // This is essential to parse JSON bodies
-
+app.use("/auth", oauthRoutes);
 app.use("/api", oauthLimiter, authRoutes);
 app.use(itemsRouter);
 
