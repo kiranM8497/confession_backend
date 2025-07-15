@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const oauthRoutes = require("./routes/oauth");
 const session = require("express-session");
 const passport = require("passport");
+const fileUploadRouter = require("./routes/uploadRoutes");
 
 //Registers your Facebook strategy
 require("./config/passport-config");
@@ -56,6 +57,7 @@ app.use(normalLimiter);
 app.use(express.json()); // This is essential to parse JSON bodies
 app.use("/auth", oauthLimiter, oauthRoutes);
 app.use("/api", authRoutes);
+app.use("/api", fileUploadRouter); //fileupload routes
 app.use(itemsRouter);
 
 const authMiddleware = (req, res, next) => {
