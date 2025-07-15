@@ -42,7 +42,7 @@ const oauthLimiter = rateLimit({
 });
 const normalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
+  max: 200, // Limit each IP to 100 requests per windowMs
   message: { error: "Too many requests, please try again later." },
 });
 
@@ -54,17 +54,16 @@ const logger = (req, res, next) => {
 app.use(logger);
 app.use(normalLimiter);
 app.use(express.json()); // This is essential to parse JSON bodies
-app.use("/auth", oauthRoutes);
-app.use("/api", oauthLimiter, authRoutes);
+app.use("/auth", oauthLimiter, oauthRoutes);
+app.use("/api", authRoutes);
 app.use(itemsRouter);
 
 const authMiddleware = (req, res, next) => {
   const token = req.cookies.token;
-  console.log("token", token);
+
   if (!token) return res.status(401).json({ message: "Unauthorized" });
 
   try {
-    console.log("here");
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
     next();

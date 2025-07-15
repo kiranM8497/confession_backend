@@ -51,10 +51,16 @@ const signUp = async (req, res) => {
       expiresIn: "1h",
     });
 
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false, // true in production (HTTPS)
+      sameSite: "Lax",
+      maxAge: 3600000,
+    });
+
     return res.status(201).json({
       message: "User created successfully",
-      user: { id: user.id, email: user.email },
-      token,
+      user: user,
     });
   } catch (error) {
     console.error("Signup error:", err);
@@ -103,7 +109,7 @@ const signIn = async (req, res) => {
       maxAge: 3600000,
     });
 
-    return res.json({ message: "Login successful" });
+    return res.json({ message: "Login successful", user: user });
   } catch (err) {
     console.error("Signin error:", err);
     return res
