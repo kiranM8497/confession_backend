@@ -27,9 +27,10 @@ app.use(
 // Initialize Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+console.log("here");
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend origin
+    origin: "http://192.168.1.5:5173" && "http://localhost:5173", // your frontend origin
     credentials: true, // allow cookies/auth headers
   })
 );
