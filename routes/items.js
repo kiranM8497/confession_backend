@@ -53,4 +53,12 @@ itemsRouter.delete("/items/:id", (req, res) => {
   }
 });
 
+itemsRouter.get("/test", (req, res, next) => {
+  try {
+    throw new Error("Invalid credentials");
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = itemsRouter;

@@ -1,11 +1,9 @@
 // middleware/requireAuth.js
 const jwt = require("jsonwebtoken");
-
+const UnauthorizedError = require("../errors/UnauthorizedError");
 const requireAuth = (req, res, next) => {
-  const token = req.cookies.token;
-
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized: No token" });
+    return next(new UnauthorizedError("Token missing or invalid"));
   }
 
   try {
@@ -13,7 +11,7 @@ const requireAuth = (req, res, next) => {
     req.user = decoded; // attach user to request
     next();
   } catch (err) {
-    return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    console.error(err);
   }
 };
 

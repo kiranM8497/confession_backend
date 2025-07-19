@@ -9,7 +9,8 @@ const oauthRoutes = require("./routes/oauth");
 const session = require("express-session");
 const passport = require("passport");
 const fileUploadRouter = require("./routes/uploadRoutes");
-
+const requireAuth = require("./middleware/requireAuth");
+const unauthorizedHandler = require("./middleware/unAuthorised");
 //Registers your Facebook strategy
 require("./config/passport-config");
 const app = express();
@@ -27,10 +28,10 @@ app.use(
 // Initialize Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
-console.log("here");
 app.use(
   cors({
-    origin: "http://192.168.1.5:5173" && "http://localhost:5173", // your frontend origin
+    // origin: "http://192.168.1.5:5173" && "http://localhost:5173", // your frontend origin
+    origin: "http://localhost:5173", // your frontend origin
     credentials: true, // allow cookies/auth headers
   })
 );
@@ -61,21 +62,7 @@ app.use("/api", authRoutes);
 app.use("/api", fileUploadRouter); //fileupload routes
 app.use(itemsRouter);
 
-const authMiddleware = (req, res, next) => {
-  const token = req.cookies.token;
-
-  if (!token) return res.status(401).json({ message: "Unauthorized" });
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    res.status(401).json({ message: "Invalid token" });
-  }
-};
-
-app.get("/api/profile", authMiddleware, (req, res) => {
+app.get("/api/profile", requireAuth, (req, res) => {
   res.json({ message: `Welcome ${req.user.username}` });
 });
 
@@ -83,10 +70,33 @@ app.post("/logout", (req, res) => {
   res.clearCookie("token", { httpOnly: true, sameSite: "Lax" });
   res.json({ message: "Logged out successfully" });
 });
-
-app.get("/*sam", (req, res) => {
+// 404 handler
+app.get((req, res) => {
   res.status(404).json({ error: "Page Not Found.." });
 });
+
+//blocker
+app.get("/block", (req, res) => {
+  // loop will run 1,000,000,000 times 1*10^9
+  let sum = 0;
+
+  //simualte a cmple math heavy task
+  for (let index = 0; index < 1e9; index++) {
+    sum += index;
+  }
+  res.send("done");
+});
+
+app.use(unauthorizedHandler);
+// Error Handler Middleware (must come last)
+// Generic error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    error: err.message || "Something went wrong",
+  });
+});
+
 app.listen(2000, () => {
-  console.log("listening on 2000");
+  console.log(`listening on 2000 with ${process.pid}`);
 });
