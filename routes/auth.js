@@ -1,6 +1,7 @@
 // routes/auth.js
 const express = require("express");
 const { signUp, signIn } = require("../controllers/authController");
+const requireAuth = require("../middleware/requireAuth");
 const router = express.Router();
 
 // Example: User signup

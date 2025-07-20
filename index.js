@@ -40,11 +40,11 @@ app.use(
 
 const oauthLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // 5 attempts per window
+  max: 1000, // 5 attempts per window
   message: "Too many OAuth attempts",
 });
 const normalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 25 * 60 * 1000, // 15 minutes
   max: 200, // Limit each IP to 100 requests per windowMs
   message: { error: "Too many requests, please try again later." },
 });
@@ -57,7 +57,7 @@ const logger = (req, res, next) => {
 app.use(logger);
 app.use(normalLimiter);
 app.use(express.json()); // This is essential to parse JSON bodies
-app.use("/auth", oauthLimiter, oauthRoutes);
+app.use("/api/auth", oauthLimiter, oauthRoutes);
 app.use("/api", authRoutes);
 app.use("/api", fileUploadRouter); //fileupload routes
 app.use(itemsRouter);
